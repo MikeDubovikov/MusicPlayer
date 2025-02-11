@@ -1,20 +1,19 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kapt)
+    alias(libs.plugins.serialization)
 }
 
 android {
-    namespace = "com.mdubovikov.musicplayer"
+    namespace = "com.mdubovikov.data"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.mdubovikov.musicplayer"
         minSdk = 26
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -26,12 +25,10 @@ android {
             )
         }
     }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-
     kotlinOptions {
         jvmTarget = "17"
     }
@@ -40,12 +37,16 @@ android {
 dependencies {
 
     implementation(projects.core.common)
-    implementation(projects.data)
-    implementation(projects.features.tracks)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
+
+    implementation(libs.dagger.core)
+    kapt(libs.dagger.compiler)
+    implementation(libs.javax.inject)
+    implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter)
+    implementation(libs.serialization.json)
 }
