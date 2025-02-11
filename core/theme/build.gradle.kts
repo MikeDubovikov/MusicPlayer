@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.mdubovikov.presentation"
+    namespace = "com.mdubovikov.theme"
     compileSdk = 35
 
     defaultConfig {
@@ -32,20 +32,11 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-
-    buildFeatures {
-        viewBinding = true
-    }
 }
 
 dependencies {
 
-    api(projects.core.common)
-    api(projects.core.theme)
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(libs.javax.inject)
-    implementation(libs.lifecycle.viewmodel.ktx)
 }
