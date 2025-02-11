@@ -40,7 +40,7 @@ retrofit-converter = { group = "com.squareup.retrofit2", name = "converter-kotli
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 dagger-core = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }
 dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger" }
-javax-inject = { group = "javax.inject" , name = "javax-inject", version.ref = "javax-inject" }
+javax-inject = { group = "javax.inject" , name = "javax.inject", version.ref = "javax-inject" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
