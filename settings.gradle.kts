@@ -1,3 +1,5 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 pluginManagement {
     repositories {
         google {
@@ -19,5 +21,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Music Player"
+rootProject.name = "MusicPlayer"
 include(":app")
+include(":core")
+include(":core:common")
