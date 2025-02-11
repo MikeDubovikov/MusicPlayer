@@ -25,6 +25,7 @@ rootProject.name = "MusicPlayer"
 include(":app")
 include(":core")
 include(":core:common")
+include(":core:presentation")
 include(":features")
 include(":features:tracks")
 include(":data")
