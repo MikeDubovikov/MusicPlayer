@@ -6,6 +6,7 @@ data class Track(
     val artist: String,
     val album: String,
     val albumCover: String,
+    val albumCoverBig: String,
     val duration: Int,
     val preview: String
 )
