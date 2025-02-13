@@ -1,37 +1,58 @@
 package com.mdubovikov.data.tracks
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.mdubovikov.common.Container
+import com.mdubovikov.common.ResponseOption
 import com.mdubovikov.data.TracksDataRepository
 import com.mdubovikov.data.network.api.ApiService
 import com.mdubovikov.data.network.dto.TrackDto
-import kotlinx.coroutines.Dispatchers
+import com.mdubovikov.data.network.paging.TracksPageSource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 class TrackDataRepositoryImpl @Inject constructor(
     private val apiService: ApiService
 ) : TracksDataRepository {
 
-    override fun getTracks(): Flow<Container<List<TrackDto>>> = flow {
-        emit(Container.Pending)
-        try {
-            val response = apiService.getTracks()
-            emit(Container.Success(response.tracks.data))
-        } catch (e: Exception) {
-            emit(Container.Error(e))
+    override fun getTracks(): Flow<Container<PagingData<TrackDto>>> = Pager(
+        config = PagingConfig(
+            pageSize = 10,
+            enablePlaceholders = false,
+            initialLoadSize = 10
+        ),
+        pagingSourceFactory = { TracksPageSource(apiService, ResponseOption.CHART_TRACKS) }
+    ).flow
+        .map<PagingData<TrackDto>, Container<PagingData<TrackDto>>> { pagingData ->
+            Container.Success(pagingData)
         }
-    }.flowOn(Dispatchers.IO)
+        .onStart {
+            emit(Container.Pending)
+        }
+        .catch { e ->
+            emit(Container.Error(e as? Exception ?: RuntimeException(e)))
+        }
 
-    override fun searchTracks(query: String, index: Int): Flow<Container<List<TrackDto>>> = flow {
-        emit(Container.Pending)
-        try {
-            val response = apiService.searchTracks(query = query, index = index)
-            emit(Container.Success(response.tracks))
-        } catch (e: Exception) {
-            emit(Container.Error(e))
+    override fun searchTracks(query: String): Flow<Container<PagingData<TrackDto>>> = Pager(
+        config = PagingConfig(
+            pageSize = 25,
+            enablePlaceholders = false,
+            initialLoadSize = 25
+        ),
+        pagingSourceFactory = { TracksPageSource(apiService, ResponseOption.SEARCH_TRACKS, query) }
+    ).flow
+        .map<PagingData<TrackDto>, Container<PagingData<TrackDto>>> { pagingData ->
+            Container.Success(pagingData)
         }
-    }.flowOn(Dispatchers.IO)
+        .onStart {
+            emit(Container.Pending)
+        }
+        .catch { e ->
+            emit(Container.Error(e as? Exception ?: RuntimeException(e)))
+        }
 
 }

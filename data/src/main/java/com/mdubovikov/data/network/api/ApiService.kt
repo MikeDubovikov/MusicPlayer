@@ -13,7 +13,7 @@ interface ApiService {
     @GET("search")
     suspend fun searchTracks(
         @Query("q") query: String,
-        @Query("index") index: Int
+        @Query("index") index: Int = 0
     ): SearchResponse
 
 }
