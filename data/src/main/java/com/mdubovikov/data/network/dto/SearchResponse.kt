@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SearchResponse(
-    @SerialName("tracks") val tracks: List<TrackDto>,
+    @SerialName("data") val tracks: List<TrackDto>,
     @SerialName("total") val total: Int,
-    @SerialName("prev") val prev: String,
-    @SerialName("next") val next: String
+    @SerialName("prev") val prev: String? = null,
+    @SerialName("next") val next: String? = null
 )
