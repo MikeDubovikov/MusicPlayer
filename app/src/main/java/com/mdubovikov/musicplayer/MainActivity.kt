@@ -1,20 +1,38 @@
 package com.mdubovikov.musicplayer
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.mdubovikov.musicplayer.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private var _binding: ActivityMainBinding? = null
+    private val binding: ActivityMainBinding
+        get() = _binding ?: throw IllegalStateException("Activity $this binding cannot be accessed")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        _binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setupNavigation()
+
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    }
+
+    private fun setupNavigation() {
+        val navView: BottomNavigationView = binding.navView
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.mainContainer) as NavHostFragment
+        val navController = navHostFragment.navController
+        navView.setupWithNavController(navController)
+    }
+
+    override fun onDestroy() {
+        _binding = null
+        super.onDestroy()
     }
 }

@@ -1,8 +1,10 @@
 package com.mdubovikov.musicplayer.di
 
+import android.app.Application
 import com.mdubovikov.data.tracks.di.TracksDataRepositoryModule
 import com.mdubovikov.di.ApplicationScope
-import com.mdubovikov.musicplayer.MainActivity
+import com.mdubovikov.tracks.di.TracksComponent
+import dagger.BindsInstance
 import dagger.Component
 
 @ApplicationScope
@@ -15,11 +17,11 @@ import dagger.Component
 )
 interface ApplicationComponent {
 
-    fun inject(activity: MainActivity)
+    fun tracksComponent(): TracksComponent.Factory
 
     @Component.Factory
     interface Factory {
 
-        fun create(): ApplicationComponent
+        fun create(@BindsInstance application: Application): ApplicationComponent
     }
 }

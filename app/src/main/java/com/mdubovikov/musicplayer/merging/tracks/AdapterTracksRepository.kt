@@ -1,5 +1,7 @@
 package com.mdubovikov.musicplayer.merging.tracks
 
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.mdubovikov.common.Container
 import com.mdubovikov.data.TracksDataRepository
 import com.mdubovikov.tracks.domain.entities.Track
@@ -14,21 +16,21 @@ class AdapterTracksRepository @Inject constructor(
     private val mapper: TracksMapper
 ) : TracksRepository {
 
-    override fun getTracks(): Flow<Container<List<Track>>> {
-        return tracksDataRepository.getTracks().map {
-            it.suspendMap { list ->
-                list.map {
-                    mapper.toTracksDomain(it)
+    override fun getTracks(): Flow<Container<PagingData<Track>>> {
+        return tracksDataRepository.getTracks().map { containerList ->
+            containerList.suspendMap { list ->
+                list.map { trackDto ->
+                    mapper.toTracksDomain(trackDto)
                 }
             }
         }
     }
 
-    override fun searchTracks(query: String): Flow<Container<List<Track>>> {
-        return tracksDataRepository.searchTracks(query = query).map {
-            it.suspendMap { list ->
-                list.map {
-                    mapper.toTracksDomain(it)
+    override fun searchTracks(query: String): Flow<Container<PagingData<Track>>> {
+        return tracksDataRepository.searchTracks(query).map { containerList ->
+            containerList.suspendMap { pagingData ->
+                pagingData.map { trackDto ->
+                    mapper.toTracksDomain(trackDto)
                 }
             }
         }
