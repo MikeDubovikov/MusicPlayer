@@ -3,6 +3,7 @@ package com.mdubovikov.tracks.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.mdubovikov.common.Container
 import com.mdubovikov.tracks.domain.GetTracksUseCase
 import com.mdubovikov.tracks.domain.SearchTracksUseCase
@@ -15,6 +16,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,6 +41,21 @@ class TracksViewModel @Inject constructor(
         }
         .flatMapLatest { query ->
             searchTracksUseCase.invoke(query)
+                .flatMapLatest { container ->
+                    when (container) {
+                        Container.Pending -> flowOf(Container.Pending)
+
+                        is Container.Error -> flowOf(Container.Error(container.exception))
+
+                        is Container.Success -> {
+                            flowOf(container.value)
+                                .cachedIn(viewModelScope)
+                                .map { pagingData ->
+                                    Container.Success(pagingData)
+                                }
+                        }
+                    }
+                }
         }
         .stateIn(
             scope = viewModelScope,
@@ -49,13 +67,31 @@ class TracksViewModel @Inject constructor(
         getChart()
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun getChart() {
         viewModelScope.launch {
-            getTracksUseCase.invoke().collect {
-                _chartTracks.value = it
-            }
+            getTracksUseCase.invoke()
+                .flatMapLatest { container ->
+                    when (container) {
+                        Container.Pending -> flowOf(Container.Pending)
+
+                        is Container.Error -> flowOf(Container.Error(container.exception))
+
+                        is Container.Success -> {
+                            flowOf(container.value)
+                                .cachedIn(viewModelScope)
+                                .map { pagingData ->
+                                    Container.Success(pagingData)
+                                }
+                        }
+                    }
+                }
+                .collect {
+                    _chartTracks.value = it
+                }
         }
     }
+
 
     fun searchTracks(query: String) {
         _searchQuery.value = query
