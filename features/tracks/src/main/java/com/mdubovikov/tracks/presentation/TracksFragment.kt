@@ -10,19 +10,20 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.mdubovikov.common.Container
 import com.mdubovikov.presentation.ViewModelFactory
+import com.mdubovikov.tracks.TracksRouter
 import com.mdubovikov.tracks.databinding.FragmentTracksBinding
 import com.mdubovikov.tracks.di.TracksComponent
 import com.mdubovikov.tracks.di.TracksComponentProvider
-import com.mdubovikov.tracks.domain.entities.Track
 import com.mdubovikov.tracks.presentation.adapter.TracksAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class TracksFragment : Fragment() {
+class TracksFragment : Fragment(), TracksRouter {
 
     private var _binding: FragmentTracksBinding? = null
     private val binding: FragmentTracksBinding
@@ -37,7 +38,7 @@ class TracksFragment : Fragment() {
         ViewModelProvider(this, viewModelFactory)[TracksViewModel::class.java]
     }
 
-    private val tracksAdapter by lazy { TracksAdapter(::onTrackClick, ::switchStatus) }
+    private val tracksAdapter by lazy { TracksAdapter(::launchPlayer, ::switchStatus) }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -57,25 +58,28 @@ class TracksFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.rvTracks.adapter = tracksAdapter
-        tracksAdapter.addLoadStateListener { loadState ->
-            when (loadState.source.refresh) {
-                is LoadState.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
-                    binding.tracksError.visibility = View.GONE
-                    binding.rvTracks.visibility = View.GONE
-                }
+        with(binding) {
+            rvTracks.adapter = tracksAdapter
+            rvTracks.itemAnimator = null
+            tracksAdapter.addLoadStateListener { loadState ->
+                when (loadState.source.refresh) {
+                    is LoadState.Loading -> {
+                        progressBar.visibility = View.VISIBLE
+                        tracksError.visibility = View.GONE
+                        rvTracks.visibility = View.GONE
+                    }
 
-                is LoadState.NotLoading -> {
-                    binding.progressBar.visibility = View.GONE
-                    binding.tracksError.visibility = View.GONE
-                    binding.rvTracks.visibility = View.VISIBLE
-                }
+                    is LoadState.NotLoading -> {
+                        progressBar.visibility = View.GONE
+                        tracksError.visibility = View.GONE
+                        rvTracks.visibility = View.VISIBLE
+                    }
 
-                is LoadState.Error -> {
-                    binding.progressBar.visibility = View.GONE
-                    binding.rvTracks.visibility = View.GONE
-                    binding.tracksError.visibility = View.VISIBLE
+                    is LoadState.Error -> {
+                        progressBar.visibility = View.GONE
+                        rvTracks.visibility = View.GONE
+                        tracksError.visibility = View.VISIBLE
+                    }
                 }
             }
         }
@@ -108,6 +112,35 @@ class TracksFragment : Fragment() {
 
     }
 
+    private fun searchTracks() {
+
+        lifecycleScope.launch {
+            viewModel.searchResults.collectLatest { track ->
+                with(binding) {
+                    when (track) {
+                        is Container.Pending -> {
+                            progressBar.visibility = View.VISIBLE
+                        }
+
+                        is Container.Success -> {
+                            progressBar.visibility = View.GONE
+                            tracksError.visibility = View.GONE
+                            rvTracks.visibility = View.VISIBLE
+                            tracksAdapter.submitData(track.value)
+                        }
+
+                        is Container.Error -> {
+                            progressBar.visibility = View.GONE
+                            rvTracks.visibility = View.GONE
+                            tracksError.visibility = View.VISIBLE
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
     private fun setupSearchView() {
 
         binding.svMeals.inputType = TYPE_TEXT_FLAG_CAP_SENTENCES
@@ -130,41 +163,19 @@ class TracksFragment : Fragment() {
         })
     }
 
-    private fun searchTracks() {
-
-        lifecycleScope.launch {
-            viewModel.searchResults.collectLatest { track ->
-                when (track) {
-                    is Container.Pending -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                    }
-
-                    is Container.Success -> {
-                        binding.progressBar.visibility = View.GONE
-                        binding.tracksError.visibility = View.GONE
-                        binding.rvTracks.visibility = View.VISIBLE
-                        tracksAdapter.submitData(track.value)
-                    }
-
-                    is Container.Error -> {
-                        binding.progressBar.visibility = View.GONE
-                        binding.rvTracks.visibility = View.GONE
-                        binding.tracksError.visibility = View.VISIBLE
-                    }
-                }
-            }
-        }
-
-    }
-
-    private fun onTrackClick(track: Track) {
+    override fun launchPlayer(trackId: Long) {
+        val action =
+            TracksFragmentDirections.actionTracksFragmentToPlayerFragment(trackId = trackId)
+        findNavController().navigate(action)
     }
 
     private fun switchStatus(trackId: Long) {
+        viewModel.switchStatus(trackId = trackId)
     }
 
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
     }
+
 }

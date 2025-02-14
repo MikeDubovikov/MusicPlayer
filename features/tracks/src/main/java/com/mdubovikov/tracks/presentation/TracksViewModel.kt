@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import com.mdubovikov.common.Container
 import com.mdubovikov.tracks.domain.GetTracksUseCase
 import com.mdubovikov.tracks.domain.SearchTracksUseCase
+import com.mdubovikov.tracks.domain.SwitchStatusTrackUseCase
 import com.mdubovikov.tracks.domain.entities.Track
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +21,8 @@ import javax.inject.Inject
 
 class TracksViewModel @Inject constructor(
     private val getTracksUseCase: GetTracksUseCase,
-    private val searchTracksUseCase: SearchTracksUseCase
+    private val searchTracksUseCase: SearchTracksUseCase,
+    private val switchStatusTrackUseCase: SwitchStatusTrackUseCase
 ) : ViewModel() {
 
     private val _chartTracks: MutableStateFlow<Container<PagingData<Track>>> =
@@ -39,7 +41,7 @@ class TracksViewModel @Inject constructor(
         }
         .stateIn(
             scope = viewModelScope,
-            started = SharingStarted.Lazily,
+            started = SharingStarted.WhileSubscribed(),
             initialValue = Container.Pending
         )
 
@@ -57,5 +59,11 @@ class TracksViewModel @Inject constructor(
 
     fun searchTracks(query: String) {
         _searchQuery.value = query
+    }
+
+    fun switchStatus(trackId: Long) {
+        viewModelScope.launch {
+            switchStatusTrackUseCase.invoke(trackId = trackId)
+        }
     }
 }
