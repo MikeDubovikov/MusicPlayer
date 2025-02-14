@@ -1,15 +1,16 @@
 package com.mdubovikov.downloads.domain.repositories
 
-import com.mdubovikov.common.Container
 import com.mdubovikov.downloads.domain.entities.TrackDownloads
 import kotlinx.coroutines.flow.Flow
 
 interface DownloadsRepository {
 
-    fun getTracksDownloads(): Flow<Container<List<TrackDownloads>>>
+    fun getDownloads(): Flow<List<TrackDownloads>>
 
-    fun searchTracksDownloads(query: String): Flow<Container<List<TrackDownloads>>>
+    fun searchDownloads(query: String): Flow<List<TrackDownloads>>
 
-    fun switchStatusTrackDownloads(trackId: Long): Boolean
+    suspend fun removeTrackFromDownloads(trackId: Long)
+
+    fun getTrackIdsInDownloads(): Flow<Set<Long>>
 
 }

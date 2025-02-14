@@ -4,13 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.mdubovikov.downloads.domain.entities.TrackDownloads
+import com.mdubovikov.theme.databinding.TrackCardBinding
 
 class DownloadsAdapter(
-    private val onTrackClick: ((track: TrackDownloads) -> Unit)?,
+    private val onTrackClick: ((trackId: Long) -> Unit)?,
     private val switchStatus: ((trackId: Long) -> Unit)?
-) : ListAdapter<TrackDownloads, TracksItemViewHolder>(TracksItemDiffCallback()) {
+) : ListAdapter<TrackDownloads, DownloadsItemViewHolder>(DownloadsItemDiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TracksItemViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DownloadsItemViewHolder {
 
         val binding = TrackCardBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -18,10 +19,10 @@ class DownloadsAdapter(
             false
         )
 
-        return TracksItemViewHolder(binding, onTrackClick, switchStatus)
+        return DownloadsItemViewHolder(binding, onTrackClick, switchStatus)
     }
 
-    override fun onBindViewHolder(holder: TracksItemViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DownloadsItemViewHolder, position: Int) {
         getItem(position)?.let { track ->
             holder.bind(track)
         }
