@@ -1,4 +1,4 @@
-package com.mdubovikov.musicplayer
+package com.mdubovikov.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
