@@ -11,4 +11,10 @@ interface TracksRepository {
 
     fun searchTracks(query: String): Flow<Container<PagingData<Track>>>
 
+    suspend fun addTrackToDownloads(trackId: Long)
+
+    suspend fun removeTrackFromDownloads(trackId: Long)
+
+    fun getTrackIdsInDownloads(): Flow<Set<Long>>
+
 }

@@ -3,11 +3,11 @@ package com.mdubovikov.tracks.presentation.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import com.mdubovikov.tracks.databinding.TrackCardBinding
+import com.mdubovikov.theme.databinding.TrackCardBinding
 import com.mdubovikov.tracks.domain.entities.Track
 
 class TracksAdapter(
-    private val onTrackClick: ((track: Track) -> Unit)?,
+    private val onTrackClick: ((trackId: Long) -> Unit)?,
     private val switchStatus: ((trackId: Long) -> Unit)?
 ) : PagingDataAdapter<Track, TracksItemViewHolder>(TracksItemDiffCallback()) {
 
