@@ -40,6 +40,9 @@ dependencies {
 
     implementation(projects.core.common)
     implementation(projects.core.di)
+    implementation(projects.features.tracks)
+    implementation(projects.features.downloads)
+    implementation(projects.features.player)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -53,4 +56,7 @@ dependencies {
     implementation(libs.retrofit.converter)
     implementation(libs.serialization.json)
     implementation(libs.paging)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
 }
