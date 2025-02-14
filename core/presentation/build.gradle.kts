@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.navigation.safeargs)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -48,4 +50,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.javax.inject)
     implementation(libs.lifecycle.viewmodel.ktx)
+    api(libs.navigation.ui.ktx)
+    api(libs.navigation.fragment.ktx)
+    implementation(libs.dagger.core)
+    ksp(libs.dagger.compiler)
 }
