@@ -4,6 +4,7 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.mdubovikov.common.Container
 import com.mdubovikov.data.TracksDataRepository
+import com.mdubovikov.data.tracks.TracksMapper
 import com.mdubovikov.tracks.domain.entities.Track
 import com.mdubovikov.tracks.domain.repositories.TracksRepository
 import kotlinx.coroutines.flow.Flow
@@ -34,6 +35,18 @@ class AdapterTracksRepository @Inject constructor(
                 }
             }
         }
+    }
+
+    override suspend fun addTrackToDownloads(trackId: Long) {
+        tracksDataRepository.addTrackToDownloads(trackId = trackId)
+    }
+
+    override suspend fun removeTrackFromDownloads(trackId: Long) {
+        tracksDataRepository.removeTrackFromDownloads(trackId = trackId)
+    }
+
+    override fun getTrackIdsInDownloads(): Flow<Set<Long>> {
+        return tracksDataRepository.getTrackIdsInDownloads()
     }
 
 }
