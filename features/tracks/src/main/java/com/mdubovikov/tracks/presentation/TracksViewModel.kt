@@ -7,7 +7,6 @@ import androidx.paging.cachedIn
 import com.mdubovikov.common.Container
 import com.mdubovikov.tracks.domain.GetTracksUseCase
 import com.mdubovikov.tracks.domain.SearchTracksUseCase
-import com.mdubovikov.tracks.domain.SwitchStatusTrackUseCase
 import com.mdubovikov.tracks.domain.entities.Track
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,8 +23,7 @@ import javax.inject.Inject
 
 class TracksViewModel @Inject constructor(
     private val getTracksUseCase: GetTracksUseCase,
-    private val searchTracksUseCase: SearchTracksUseCase,
-    private val switchStatusTrackUseCase: SwitchStatusTrackUseCase
+    private val searchTracksUseCase: SearchTracksUseCase
 ) : ViewModel() {
 
     private val _chartTracks: MutableStateFlow<Container<PagingData<Track>>> =
@@ -33,6 +31,11 @@ class TracksViewModel @Inject constructor(
     val chartTracks: StateFlow<Container<PagingData<Track>>> = _chartTracks.asStateFlow()
 
     private val _searchQuery: MutableStateFlow<String> = MutableStateFlow("")
+    val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
+
+    init {
+        getChart()
+    }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val searchResults: StateFlow<Container<PagingData<Track>>> = _searchQuery
@@ -59,13 +62,9 @@ class TracksViewModel @Inject constructor(
         }
         .stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(),
+            started = SharingStarted.WhileSubscribed(5000),
             initialValue = Container.Pending
         )
-
-    init {
-        getChart()
-    }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun getChart() {
@@ -92,14 +91,7 @@ class TracksViewModel @Inject constructor(
         }
     }
 
-
     fun searchTracks(query: String) {
         _searchQuery.value = query
-    }
-
-    fun switchStatus(trackId: Long) {
-        viewModelScope.launch {
-            switchStatusTrackUseCase.invoke(trackId = trackId)
-        }
     }
 }

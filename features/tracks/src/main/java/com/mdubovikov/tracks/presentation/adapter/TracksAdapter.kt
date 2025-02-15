@@ -7,8 +7,7 @@ import com.mdubovikov.theme.databinding.TrackCardBinding
 import com.mdubovikov.tracks.domain.entities.Track
 
 class TracksAdapter(
-    private val onTrackClick: ((trackId: Long) -> Unit)?,
-    private val switchStatus: ((trackId: Long) -> Unit)?
+    private val onTrackClick: ((trackId: Long) -> Unit)?
 ) : PagingDataAdapter<Track, TracksItemViewHolder>(TracksItemDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TracksItemViewHolder {
@@ -19,7 +18,7 @@ class TracksAdapter(
             false
         )
 
-        return TracksItemViewHolder(binding, onTrackClick, switchStatus)
+        return TracksItemViewHolder(binding, onTrackClick)
     }
 
     override fun onBindViewHolder(holder: TracksItemViewHolder, position: Int) {
