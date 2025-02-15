@@ -8,9 +8,4 @@ interface DownloadsRepository {
     fun getDownloads(): Flow<List<TrackDownloads>>
 
     fun searchDownloads(query: String): Flow<List<TrackDownloads>>
-
-    suspend fun removeTrackFromDownloads(trackId: Long)
-
-    fun getTrackIdsInDownloads(): Flow<Set<Long>>
-
 }

@@ -9,16 +9,15 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.mdubovikov.downloads.DownloadsRouter
 import com.mdubovikov.downloads.databinding.FragmentDownloadsBinding
 import com.mdubovikov.downloads.di.DownloadsComponent
 import com.mdubovikov.downloads.di.DownloadsComponentProvider
+import com.mdubovikov.downloads.domain.entities.TrackDownloads
 import com.mdubovikov.downloads.presentation.adapter.DownloadsAdapter
 import com.mdubovikov.presentation.ViewModelFactory
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import com.mdubovikov.presentation.observeStateOn
 import javax.inject.Inject
 
 class DownloadsFragment : Fragment(), DownloadsRouter {
@@ -36,7 +35,7 @@ class DownloadsFragment : Fragment(), DownloadsRouter {
         ViewModelProvider(this, viewModelFactory)[DownloadsViewModel::class.java]
     }
 
-    private val downloadsAdapter by lazy { DownloadsAdapter(::launchPlayer, ::removeTrack) }
+    private val downloadsAdapter by lazy { DownloadsAdapter(::launchPlayer) }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -66,41 +65,28 @@ class DownloadsFragment : Fragment(), DownloadsRouter {
     }
 
     private fun loadDownloadedTracks() {
-
-        lifecycleScope.launch {
-            viewModel.downloadedTracks.collectLatest { track ->
-                with(binding) {
-                    if (track.isNotEmpty()) {
-                        tracksEmpty.visibility = View.GONE
-                        rvTracks.visibility = View.VISIBLE
-                        downloadsAdapter.submitList(track)
-                    } else {
-                        tracksEmpty.visibility = View.VISIBLE
-                        rvTracks.visibility = View.GONE
-                    }
-                }
-            }
+        viewModel.downloadedTracks.observeStateOn(viewLifecycleOwner) { track ->
+            updateTracksList(track)
         }
-
     }
 
     private fun searchTracks() {
+        viewModel.searchResults.observeStateOn(viewLifecycleOwner) { track ->
+            updateTracksList(track)
+        }
+    }
 
-        lifecycleScope.launch {
-            viewModel.searchResults.collectLatest { track ->
-                with(binding) {
-                    if (track.isNotEmpty()) {
-                        tracksEmpty.visibility = View.GONE
-                        rvTracks.visibility = View.VISIBLE
-                        downloadsAdapter.submitList(track)
-                    } else {
-                        tracksEmpty.visibility = View.VISIBLE
-                        rvTracks.visibility = View.GONE
-                    }
-                }
+    private fun updateTracksList(track: List<TrackDownloads>) {
+        with(binding) {
+            if (track.isNotEmpty()) {
+                tracksEmpty.visibility = View.GONE
+                rvTracks.visibility = View.VISIBLE
+                downloadsAdapter.submitList(track)
+            } else {
+                tracksEmpty.visibility = View.VISIBLE
+                rvTracks.visibility = View.GONE
             }
         }
-
     }
 
     private fun setupSearchView() {
@@ -129,10 +115,6 @@ class DownloadsFragment : Fragment(), DownloadsRouter {
         val action =
             DownloadsFragmentDirections.actionDownloadsFragmentToPlayerFragment(trackId = trackId)
         findNavController().navigate(action)
-    }
-
-    private fun removeTrack(trackId: Long) {
-        viewModel.removeFromDownloads(trackId = trackId)
     }
 
     override fun onDestroyView() {
