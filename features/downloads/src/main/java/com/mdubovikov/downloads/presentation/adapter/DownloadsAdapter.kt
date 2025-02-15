@@ -7,8 +7,7 @@ import com.mdubovikov.downloads.domain.entities.TrackDownloads
 import com.mdubovikov.theme.databinding.TrackCardBinding
 
 class DownloadsAdapter(
-    private val onTrackClick: ((trackId: Long) -> Unit)?,
-    private val switchStatus: ((trackId: Long) -> Unit)?
+    private val onTrackClick: ((trackId: Long) -> Unit)?
 ) : ListAdapter<TrackDownloads, DownloadsItemViewHolder>(DownloadsItemDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DownloadsItemViewHolder {
@@ -19,7 +18,7 @@ class DownloadsAdapter(
             false
         )
 
-        return DownloadsItemViewHolder(binding, onTrackClick, switchStatus)
+        return DownloadsItemViewHolder(binding, onTrackClick)
     }
 
     override fun onBindViewHolder(holder: DownloadsItemViewHolder, position: Int) {
