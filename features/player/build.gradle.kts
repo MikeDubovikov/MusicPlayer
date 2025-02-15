@@ -52,4 +52,6 @@ dependencies {
     implementation(libs.javax.inject)
     implementation(libs.glide)
     ksp(libs.glide.compiler)
+    implementation(libs.media3.exoplayer)
+    implementation(libs.media3.session)
 }
