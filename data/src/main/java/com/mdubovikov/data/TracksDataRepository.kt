@@ -10,11 +10,4 @@ interface TracksDataRepository {
     fun getTracks(): Flow<Container<PagingData<TrackDto>>>
 
     fun searchTracks(query: String): Flow<Container<PagingData<TrackDto>>>
-
-    suspend fun addTrackToDownloads(trackId: Long)
-
-    suspend fun removeTrackFromDownloads(trackId: Long)
-
-    fun getTrackIdsInDownloads(): Flow<Set<Long>>
-
 }
