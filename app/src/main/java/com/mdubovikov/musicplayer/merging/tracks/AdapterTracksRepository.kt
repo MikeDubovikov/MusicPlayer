@@ -36,17 +36,4 @@ class AdapterTracksRepository @Inject constructor(
             }
         }
     }
-
-    override suspend fun addTrackToDownloads(trackId: Long) {
-        tracksDataRepository.addTrackToDownloads(trackId = trackId)
-    }
-
-    override suspend fun removeTrackFromDownloads(trackId: Long) {
-        tracksDataRepository.removeTrackFromDownloads(trackId = trackId)
-    }
-
-    override fun getTrackIdsInDownloads(): Flow<Set<Long>> {
-        return tracksDataRepository.getTrackIdsInDownloads()
-    }
-
 }
