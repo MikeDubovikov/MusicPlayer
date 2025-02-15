@@ -6,7 +6,6 @@ import androidx.paging.PagingData
 import com.mdubovikov.common.Container
 import com.mdubovikov.common.ResponseOption
 import com.mdubovikov.data.TracksDataRepository
-import com.mdubovikov.data.database.dao.TracksDao
 import com.mdubovikov.data.network.api.ApiService
 import com.mdubovikov.data.network.dto.TrackDto
 import com.mdubovikov.data.network.paging.TracksPageSource
@@ -17,9 +16,7 @@ import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 class TrackDataRepositoryImpl @Inject constructor(
-    private val apiService: ApiService,
-    private val downloadsDao: TracksDao,
-    private val tracksMapper: TracksMapper
+    private val apiService: ApiService
 ) : TracksDataRepository {
 
     override fun getTracks(): Flow<Container<PagingData<TrackDto>>> = Pager(
@@ -57,18 +54,4 @@ class TrackDataRepositoryImpl @Inject constructor(
         .catch { e ->
             emit(Container.Error(e as? Exception ?: RuntimeException(e)))
         }
-
-    override suspend fun addTrackToDownloads(trackId: Long) {
-        val trackDto = apiService.getTrack(trackId)
-        downloadsDao.addToDownloads(tracksMapper.toTracksDb(trackDto))
-    }
-
-    override suspend fun removeTrackFromDownloads(trackId: Long) {
-        downloadsDao.removeFromDownloads(trackId = trackId)
-    }
-
-    override fun getTrackIdsInDownloads(): Flow<Set<Long>> {
-        return downloadsDao.trackIdsFromDownloads().map { it.toSet() }
-    }
-
 }
