@@ -2,6 +2,7 @@ package com.mdubovikov.musicplayer.di
 
 import android.app.Application
 import com.mdubovikov.data.downloads.di.DownloadsDataRepositoryModule
+import com.mdubovikov.data.player.di.PlayerDataRepositoryModule
 import com.mdubovikov.data.tracks.di.TracksDataRepositoryModule
 import com.mdubovikov.di.ApplicationScope
 import com.mdubovikov.downloads.di.DownloadsComponent
@@ -16,7 +17,9 @@ import dagger.Component
         TracksRepositoryModule::class,
         TracksDataRepositoryModule::class,
         DownloadsRepositoryModule::class,
-        DownloadsDataRepositoryModule::class
+        DownloadsDataRepositoryModule::class,
+        PlayerRepositoryModule::class,
+        PlayerDataRepositoryModule::class
     ]
 )
 interface ApplicationComponent {
