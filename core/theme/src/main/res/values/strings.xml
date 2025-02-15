@@ -9,4 +9,10 @@
     <string name="search_icon">Search icon</string>
     <string name="chart">Chart</string>
     <string name="empty">Downloads is empty</string>
+    <string name="button_back">Back button icon</string>
+    <string name="playing_from_artist">PLAYING FROM ARTIST</string>
+    <string name="play_icon">Play icon</string>
+    <string name="pause_icon">Pause icon</string>
+    <string name="previous_icon">Previous icon</string>
+    <string name="next_icon">Next icon</string>
 </resources>

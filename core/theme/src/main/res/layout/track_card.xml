@@ -33,7 +33,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="8dp"
@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lines="2"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 tools:text="Track Name" />
 
@@ -52,19 +52,10 @@
                 android:id="@+id/tvArtistName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 tools:text="Artist Name" />
 
         </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/buttonSwitchStatus"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="60dp"
-            android:background="@drawable/round_button"
-            android:contentDescription="@string/add_icon"
-            tools:src="@drawable/ic_add" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
