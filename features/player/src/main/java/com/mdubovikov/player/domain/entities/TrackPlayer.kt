@@ -7,5 +7,6 @@ data class TrackPlayer(
     val album: String,
     val albumCover: String,
     val duration: Int,
-    val preview: String
+    val preview: String,
+    val isDownload: Boolean = false
 )

@@ -20,8 +20,211 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="8dp" />
 
+    <ImageView
+        android:id="@+id/buttonBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/button_back"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
-        android:id="@+id/tracksError"
+        android:id="@+id/tvPlayingFrom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/playing_from_artist"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvArtistNameTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvPlayingFrom"
+        tools:text="ArtistName" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvAlbumCover"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="48dp"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintEnd_toEndOf="@id/contentEnd"
+        app:layout_constraintStart_toStartOf="@id/contentStart"
+        app:layout_constraintTop_toBottomOf="@id/tvArtistNameTop"
+        app:strokeWidth="0dp">
+
+        <ImageView
+            android:id="@+id/ivAlbumCover"
+            android:layout_width="350dp"
+            android:layout_height="350dp"
+            android:contentDescription="@string/cover_image"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@id/tvTrackTitle"
+            tools:src="@drawable/ic_placeholder" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <LinearLayout
+        android:id="@+id/linearInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="48dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="@id/contentEnd"
+        app:layout_constraintStart_toStartOf="@id/contentStart"
+        app:layout_constraintTop_toBottomOf="@id/cvAlbumCover">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTrackTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:text="SongName" />
+
+            <TextView
+                android:id="@+id/tvTrackArtist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textSize="14sp"
+                tools:text="ArtistName" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/buttonSwitchStatus"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginStart="60dp"
+            android:background="@drawable/round_button"
+            android:contentDescription="@string/add_icon"
+            tools:src="@drawable/ic_add" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/progressBlock"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/linearControl"
+        app:layout_constraintEnd_toEndOf="@id/contentEnd"
+        app:layout_constraintStart_toStartOf="@id/contentStart"
+        app:layout_constraintTop_toBottomOf="@id/linearInfo">
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progressBackgroundTint="@color/orange"
+            android:progressTint="@color/blue"
+            android:thumbTint="@color/blue"
+            tools:progress="30" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvCurrentTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                tools:text="0:00" />
+
+            <TextView
+                android:id="@+id/tvDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                tools:text="3:45" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearControl"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/contentEnd"
+        app:layout_constraintStart_toStartOf="@id/contentStart"
+        app:layout_constraintTop_toBottomOf="@id/linearInfo">
+
+        <ImageButton
+            android:id="@+id/buttonPrev"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/round_button"
+            android:contentDescription="@string/previous_icon"
+            android:src="@drawable/ic_previous" />
+
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="0dp" />
+
+        <ImageButton
+            android:id="@+id/buttonPlay"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/round_button"
+            android:contentDescription="@string/play_icon"
+            android:src="@drawable/ic_play" />
+
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="0dp" />
+
+        <ImageButton
+            android:id="@+id/buttonNext"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/round_button"
+            android:contentDescription="@string/next_icon"
+            android:src="@drawable/ic_next" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/trackError"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/something_went_wrong"
