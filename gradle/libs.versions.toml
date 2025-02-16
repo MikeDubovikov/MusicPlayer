@@ -20,7 +20,7 @@ javax-inject = "1"
 room = "2.6.1"
 glide = "4.16.0"
 serialization-json = "1.8.0"
-media3 = "1.5.1"
+media = "1.7.0"
 paging = "3.3.6"
 
 [libraries]
@@ -48,8 +48,7 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
 serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization-json" }
-media3-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "media3" }
-media3-session = { group = "androidx.media3", name = "media3-session", version.ref = "media3" }
+media = { group = "androidx.media", name = "media", version.ref = "media" }
 paging = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "paging" }
 
 [plugins]

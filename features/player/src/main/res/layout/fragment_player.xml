@@ -61,6 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
         android:layout_marginTop="48dp"
+        android:backgroundTint="@color/white"
         app:cardCornerRadius="16dp"
         app:layout_constraintEnd_toEndOf="@id/contentEnd"
         app:layout_constraintStart_toStartOf="@id/contentStart"
@@ -160,9 +161,9 @@
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:gravity="start"
+                android:text="0:00"
                 android:textColor="@color/black"
-                android:textSize="12sp"
-                tools:text="0:00" />
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/tvDuration"
@@ -202,7 +203,7 @@
             android:layout_height="0dp" />
 
         <ImageButton
-            android:id="@+id/buttonPlay"
+            android:id="@+id/buttonPlayPause"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/round_button"

@@ -1,13 +1,15 @@
 package com.mdubovikov.player.presentation
 
+import android.content.ComponentName
 import android.content.Context
+import android.content.ServiceConnection
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.os.IBinder
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.widget.SeekBar
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -16,18 +18,18 @@ import com.mdubovikov.player.databinding.FragmentPlayerBinding
 import com.mdubovikov.player.di.PlayerComponent
 import com.mdubovikov.player.di.PlayerComponentProvider
 import com.mdubovikov.player.domain.entities.TrackPlayer
+import com.mdubovikov.player.service.MusicService
+import com.mdubovikov.presentation.BaseFragment
 import com.mdubovikov.presentation.ViewModelFactory
 import com.mdubovikov.presentation.observeStateOn
 import com.mdubovikov.theme.R
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class PlayerFragment : Fragment() {
+class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
 
-    private var _binding: FragmentPlayerBinding? = null
-    private val binding: FragmentPlayerBinding
-        get() = _binding ?: throw IllegalStateException("Fragment $this binding cannot be accessed")
-
-    lateinit var playerComponent: PlayerComponent
+    private lateinit var playerComponent: PlayerComponent
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -38,20 +40,52 @@ class PlayerFragment : Fragment() {
 
     private val args: PlayerFragmentArgs by navArgs<PlayerFragmentArgs>()
 
+    private var service: MusicService? = null
+    private var isBound = false
+
+    private val connection = object : ServiceConnection {
+        override fun onServiceConnected(p0: ComponentName?, binder: IBinder?) {
+            service = (binder as MusicService.MusicBinder).getService()
+//            binder.setMusicList()
+            lifecycleScope.launch {
+                binder.isPlaying().collectLatest {
+                }
+            }
+
+            lifecycleScope.launch {
+                binder.maxDuration().collectLatest {
+                }
+            }
+            lifecycleScope.launch {
+                binder.currentDuration().collectLatest {
+                }
+            }
+
+            lifecycleScope.launch {
+                binder.isPlaying().collectLatest {
+                }
+            }
+            lifecycleScope.launch {
+                binder.getCurrentTrack().collectLatest {
+                }
+            }
+            isBound = true
+        }
+
+        override fun onServiceDisconnected(p0: ComponentName?) {
+            isBound = false
+        }
+    }
+
+    override fun createBinding(): FragmentPlayerBinding {
+        return FragmentPlayerBinding.inflate(layoutInflater)
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         playerComponent =
             (requireActivity().applicationContext as PlayerComponentProvider).getPlayerComponent()
         playerComponent.inject(this)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentPlayerBinding.inflate(inflater, container, false)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,7 +104,6 @@ class PlayerFragment : Fragment() {
             }
         }
     }
-
 
     private fun loadTrackData(trackPlayer: TrackPlayer) {
         with(binding) {
@@ -92,7 +125,7 @@ class PlayerFragment : Fragment() {
             buttonPrev.setOnClickListener {
             }
 
-            buttonPlay.setOnClickListener {
+            buttonPlayPause.setOnClickListener {
             }
 
             buttonNext.setOnClickListener {
@@ -107,15 +140,67 @@ class PlayerFragment : Fragment() {
             } else {
                 buttonSwitchStatus.setImageResource(R.drawable.ic_add)
             }
+
+            setSeekBar(trackPlayer)
         }
     }
+
+//    override fun onStart() {
+//        super.onStart()
+//        val intent = Intent(requireActivity(), MusicService::class.java)
+//        requireActivity().startService(intent)
+//        requireActivity().bindService(intent, connection, BIND_AUTO_CREATE)
+//    }
+//
+//    override fun onStop() {
+//        super.onStop()
+//        val intent = Intent(requireActivity(), MusicService::class.java)
+//        requireActivity().stopService(intent)
+//        requireActivity().unbindService(connection)
+//    }
 
     private fun switchStatus(trackId: Long) {
         viewModel.switchStatus(trackId = trackId)
     }
 
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
+    private fun setSeekBar(trackPlayer: TrackPlayer) {
+
+        val totalDuration: Int = trackPlayer.duration
+        var isUserSeeking = false
+
+        with(binding) {
+            seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(
+                    seekBar: SeekBar?,
+                    progress: Int,
+                    fromUser: Boolean
+                ) {
+                    if (fromUser) {
+                        isUserSeeking = true
+                        val currentTime = (totalDuration * progress) / 100
+                        tvCurrentTime.text = formatTime(currentTime.toLong())
+                    }
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                    isUserSeeking = true
+                }
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                    isUserSeeking = false
+                    val newPosition = (totalDuration * seekBar!!.progress) / 100
+                    tvCurrentTime.text = formatTime((newPosition * 1000).toLong())
+                }
+            })
+
+            val durationMs = trackPlayer.duration * 1000
+            tvDuration.text = formatTime(durationMs.toLong())
+        }
+    }
+
+    private fun formatTime(ms: Long): String {
+        val minutes = (ms / 1000) / 60
+        val seconds = (ms / 1000) % 60
+        return String.format("%02d:%02d", minutes, seconds)
     }
 }
