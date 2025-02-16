@@ -2,6 +2,7 @@ package com.mdubovikov.data.downloads.di
 
 import android.app.Application
 import com.mdubovikov.data.DownloadsDataRepository
+import com.mdubovikov.data.database.TrackDownloadManager
 import com.mdubovikov.data.database.TracksDatabase
 import com.mdubovikov.data.database.dao.TracksDao
 import com.mdubovikov.data.downloads.DownloadsDataRepositoryImpl
@@ -23,10 +24,14 @@ interface DownloadsDataRepositoryModule {
             return TracksDatabase.getInstance(context = application)
         }
 
-
         @[ApplicationScope Provides]
         fun provideTracksDao(database: TracksDatabase): TracksDao {
             return database.downloadsDao()
+        }
+
+        @[ApplicationScope Provides]
+        fun provideDownloadManager(application: Application): TrackDownloadManager {
+            return TrackDownloadManager(context = application)
         }
     }
 
