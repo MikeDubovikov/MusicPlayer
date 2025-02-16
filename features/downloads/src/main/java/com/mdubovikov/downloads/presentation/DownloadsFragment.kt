@@ -3,11 +3,8 @@ package com.mdubovikov.downloads.presentation
 import android.content.Context
 import android.os.Bundle
 import android.text.InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.mdubovikov.downloads.DownloadsRouter
@@ -16,17 +13,14 @@ import com.mdubovikov.downloads.di.DownloadsComponent
 import com.mdubovikov.downloads.di.DownloadsComponentProvider
 import com.mdubovikov.downloads.domain.entities.TrackDownloads
 import com.mdubovikov.downloads.presentation.adapter.DownloadsAdapter
+import com.mdubovikov.presentation.BaseFragment
 import com.mdubovikov.presentation.ViewModelFactory
 import com.mdubovikov.presentation.observeStateOn
 import javax.inject.Inject
 
-class DownloadsFragment : Fragment(), DownloadsRouter {
+class DownloadsFragment : BaseFragment<FragmentDownloadsBinding>(), DownloadsRouter {
 
-    private var _binding: FragmentDownloadsBinding? = null
-    private val binding: FragmentDownloadsBinding
-        get() = _binding ?: throw IllegalStateException("Fragment $this binding cannot be accessed")
-
-    lateinit var downloadsComponent: DownloadsComponent
+    private lateinit var downloadsComponent: DownloadsComponent
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -37,20 +31,15 @@ class DownloadsFragment : Fragment(), DownloadsRouter {
 
     private val downloadsAdapter by lazy { DownloadsAdapter(::launchPlayer) }
 
+    override fun createBinding(): FragmentDownloadsBinding {
+        return FragmentDownloadsBinding.inflate(layoutInflater)
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         downloadsComponent =
             (requireActivity().applicationContext as DownloadsComponentProvider).getDownloadsComponent()
         downloadsComponent.inject(this)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentDownloadsBinding.inflate(inflater, container, false)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -116,10 +105,4 @@ class DownloadsFragment : Fragment(), DownloadsRouter {
             DownloadsFragmentDirections.actionDownloadsFragmentToPlayerFragment(trackId = trackId)
         findNavController().navigate(action)
     }
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
-    }
-
 }
