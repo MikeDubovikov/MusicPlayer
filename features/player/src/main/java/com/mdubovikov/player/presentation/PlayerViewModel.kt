@@ -18,8 +18,20 @@ class PlayerViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _track: MutableStateFlow<Container<TrackPlayer>> =
-        MutableStateFlow<Container<TrackPlayer>>(Container.Pending)
+        MutableStateFlow(Container.Pending)
     val track: StateFlow<Container<TrackPlayer>> = _track.asStateFlow()
+
+    private val _currentTrack = MutableStateFlow<TrackPlayer?>(null)
+    val currentTrack: StateFlow<TrackPlayer?> = _currentTrack
+
+    private val _maxDuration = MutableStateFlow(0f)
+    val maxDuration: StateFlow<Float> = _maxDuration
+
+    private val _currentDuration = MutableStateFlow(0f)
+    val currentDuration: StateFlow<Float> = _currentDuration
+
+    private val _isPlaying = MutableStateFlow(false)
+    val isPlaying: StateFlow<Boolean> = _isPlaying
 
     fun getTrack(trackId: Long) {
         viewModelScope.launch {
