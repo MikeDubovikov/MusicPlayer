@@ -10,5 +10,5 @@ data class TrackDto(
     @SerialName("artist") val artist: ArtistDto,
     @SerialName("album") val album: AlbumDto,
     @SerialName("duration") val duration: Int,
-    @SerialName("preview") val preview: String
+    @SerialName("preview") val remoteUri: String
 )

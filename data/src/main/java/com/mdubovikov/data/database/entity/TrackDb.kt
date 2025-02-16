@@ -8,5 +8,7 @@ data class TrackDb(
     @PrimaryKey val id: Long,
     val title: String,
     val artist: String,
-    val albumCover: String
+    val albumCover: String,
+    val remoteUri: String,
+    val localUri: String = ""
 )

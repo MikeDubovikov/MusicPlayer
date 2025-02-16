@@ -12,7 +12,7 @@ class TracksDownloadsMapper @Inject constructor() {
             title = trackDb.title,
             artist = trackDb.artist,
             albumCover = trackDb.albumCover,
+            remoteUri = trackDb.remoteUri
         )
     }
-
 }

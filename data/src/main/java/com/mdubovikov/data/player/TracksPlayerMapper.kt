@@ -15,7 +15,7 @@ class TracksPlayerMapper @Inject constructor() {
             album = trackDto.album.title,
             albumCover = trackDto.album.coverBig,
             duration = trackDto.duration,
-            preview = trackDto.preview
+            preview = trackDto.remoteUri
         )
     }
 
@@ -24,7 +24,8 @@ class TracksPlayerMapper @Inject constructor() {
             id = trackDto.id,
             title = trackDto.title,
             artist = trackDto.artist.name,
-            albumCover = trackDto.album.coverBig
+            albumCover = trackDto.album.coverBig,
+            remoteUri = trackDto.remoteUri
         )
     }
 

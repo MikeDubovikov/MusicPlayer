@@ -5,5 +5,7 @@ data class TrackDownloads(
     val title: String,
     val artist: String,
     val albumCover: String,
+    val remoteUri: String,
+    val localUri: String = "",
     val isDownload: Boolean = false
 )
