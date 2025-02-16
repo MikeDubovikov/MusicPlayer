@@ -2,13 +2,12 @@ package com.mdubovikov.player.presentation
 
 import android.content.ComponentName
 import android.content.Context
-import android.content.Context.BIND_AUTO_CREATE
-import android.content.Intent
 import android.content.ServiceConnection
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
 import android.view.View
+import android.widget.SeekBar
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -141,6 +140,8 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
             } else {
                 buttonSwitchStatus.setImageResource(R.drawable.ic_add)
             }
+
+            setSeekBar(trackPlayer)
         }
     }
 
@@ -160,6 +161,41 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
 
     private fun switchStatus(trackId: Long) {
         viewModel.switchStatus(trackId = trackId)
+    }
+
+    private fun setSeekBar(trackPlayer: TrackPlayer) {
+
+        val totalDuration: Int = trackPlayer.duration
+        var isUserSeeking = false
+
+        with(binding) {
+            seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(
+                    seekBar: SeekBar?,
+                    progress: Int,
+                    fromUser: Boolean
+                ) {
+                    if (fromUser) {
+                        isUserSeeking = true
+                        val currentTime = (totalDuration * progress) / 100
+                        tvCurrentTime.text = formatTime(currentTime.toLong())
+                    }
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                    isUserSeeking = true
+                }
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                    isUserSeeking = false
+                    val newPosition = (totalDuration * seekBar!!.progress) / 100
+                    tvCurrentTime.text = formatTime((newPosition * 1000).toLong())
+                }
+            })
+
+            val durationMs = trackPlayer.duration * 1000
+            tvDuration.text = formatTime(durationMs.toLong())
+        }
     }
 
     private fun formatTime(ms: Long): String {
