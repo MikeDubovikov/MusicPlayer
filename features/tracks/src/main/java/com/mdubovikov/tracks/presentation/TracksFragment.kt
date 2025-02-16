@@ -3,17 +3,15 @@ package com.mdubovikov.tracks.presentation
 import android.content.Context
 import android.os.Bundle
 import android.text.InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.mdubovikov.common.Container
+import com.mdubovikov.presentation.BaseFragment
 import com.mdubovikov.presentation.ViewModelFactory
 import com.mdubovikov.presentation.observeStateOn
 import com.mdubovikov.theme.R
@@ -25,13 +23,9 @@ import com.mdubovikov.tracks.presentation.adapter.TracksAdapter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class TracksFragment : Fragment(), TracksRouter {
+class TracksFragment : BaseFragment<FragmentTracksBinding>(), TracksRouter {
 
-    private var _binding: FragmentTracksBinding? = null
-    private val binding: FragmentTracksBinding
-        get() = _binding ?: throw IllegalStateException("Fragment $this binding cannot be accessed")
-
-    lateinit var tracksComponent: TracksComponent
+    private lateinit var tracksComponent: TracksComponent
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -42,20 +36,15 @@ class TracksFragment : Fragment(), TracksRouter {
 
     private val tracksAdapter by lazy { TracksAdapter(::launchPlayer) }
 
+    override fun createBinding(): FragmentTracksBinding {
+        return FragmentTracksBinding.inflate(layoutInflater)
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         tracksComponent =
             (requireActivity().applicationContext as TracksComponentProvider).getTracksComponent()
         tracksComponent.inject(this)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentTracksBinding.inflate(inflater, container, false)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -96,6 +85,7 @@ class TracksFragment : Fragment(), TracksRouter {
 
         binding.buttonChart.setOnClickListener {
             viewModel.getChart()
+            loadChartTracks()
         }
     }
 
@@ -152,10 +142,5 @@ class TracksFragment : Fragment(), TracksRouter {
         val action =
             TracksFragmentDirections.actionTracksFragmentToPlayerFragment(trackId = trackId)
         findNavController().navigate(action)
-    }
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
     }
 }
