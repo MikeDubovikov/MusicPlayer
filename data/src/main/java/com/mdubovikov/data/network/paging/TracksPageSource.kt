@@ -2,9 +2,9 @@ package com.mdubovikov.data.network.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.mdubovikov.common.ResponseOption
 import com.mdubovikov.data.network.api.ApiService
 import com.mdubovikov.data.network.dto.TrackDto
+import com.mdubovikov.util.ResponseOption
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject

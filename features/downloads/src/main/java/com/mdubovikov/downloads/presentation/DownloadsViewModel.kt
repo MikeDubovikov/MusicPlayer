@@ -48,7 +48,7 @@ class DownloadsViewModel @Inject constructor(
 
     fun getDownloads() {
         viewModelScope.launch {
-            getDownloadsUseCase.invoke().collect { tracks ->
+            getDownloadsUseCase().collect { tracks ->
                 _downloadedTracks.emit(tracks)
             }
         }

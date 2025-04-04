@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.mdubovikov.common.Container
 import com.mdubovikov.tracks.domain.GetTracksUseCase
 import com.mdubovikov.tracks.domain.SearchTracksUseCase
 import com.mdubovikov.tracks.domain.entities.Track
+import com.mdubovikov.util.Container
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

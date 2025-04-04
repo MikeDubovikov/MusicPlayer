@@ -31,7 +31,5 @@
         <argument
             android:name="trackId"
             app:argType="long" />
-        <argument android:name="listTracks"
-            app:argType="long[]" />
     </fragment>
 </navigation>

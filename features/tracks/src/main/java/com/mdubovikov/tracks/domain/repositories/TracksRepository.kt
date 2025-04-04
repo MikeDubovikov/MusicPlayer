@@ -1,8 +1,8 @@
 package com.mdubovikov.tracks.domain.repositories
 
 import androidx.paging.PagingData
-import com.mdubovikov.common.Container
 import com.mdubovikov.tracks.domain.entities.Track
+import com.mdubovikov.util.Container
 import kotlinx.coroutines.flow.Flow
 
 interface TracksRepository {

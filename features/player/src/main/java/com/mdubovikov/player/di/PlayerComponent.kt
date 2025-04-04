@@ -1,11 +1,14 @@
 package com.mdubovikov.player.di
 
 import com.mdubovikov.player.presentation.PlayerFragment
+import com.mdubovikov.util.PlayerScope
 import dagger.Subcomponent
 
+@PlayerScope
 @Subcomponent(
     modules = [
-        PlayerViewModelModule::class
+        PlayerViewModelModule::class,
+        MediaModule::class
     ]
 )
 interface PlayerComponent {

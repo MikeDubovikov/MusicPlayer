@@ -1,8 +1,9 @@
 package com.mdubovikov.downloads.presentation.adapter
 
-import android.net.Uri
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mdubovikov.downloads.domain.entities.TrackDownloads
 import com.mdubovikov.theme.R
 import com.mdubovikov.theme.databinding.TrackCardBinding
@@ -16,10 +17,11 @@ class DownloadsItemViewHolder(
     fun bind(track: TrackDownloads) {
         with(binding) {
             Glide.with(ivCover)
-                .load(Uri.parse(track.albumCover))
+                .load(track.albumCover.toUri())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
-                .placeholder(R.drawable.ic_placeholder)
-                .error(R.drawable.ic_placeholder)
+                .placeholder(R.drawable.ic_music_note)
+                .error(R.drawable.ic_music_note)
                 .into(ivCover)
 
             tvTrackName.text = track.title

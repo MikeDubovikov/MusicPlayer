@@ -6,7 +6,8 @@
     <string name="add_icon">Add icon</string>
     <string name="cover_image">Cover image</string>
     <string name="something_went_wrong">Something went wrong</string>
-    <string name="search_hint">What do you want?</string>
+    <string name="search_hint_tracks">What do you want to listen to?</string>
+    <string name="search_hint_downloads">Find your favorite music</string>
     <string name="search_icon">Search icon</string>
     <string name="chart">Chart</string>
     <string name="empty">Downloads is empty</string>

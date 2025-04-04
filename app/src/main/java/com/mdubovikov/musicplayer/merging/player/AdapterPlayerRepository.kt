@@ -1,10 +1,10 @@
 package com.mdubovikov.musicplayer.merging.player
 
-import com.mdubovikov.common.Container
 import com.mdubovikov.data.PlayerDataRepository
 import com.mdubovikov.data.player.TracksPlayerMapper
 import com.mdubovikov.player.domain.entities.TrackPlayer
 import com.mdubovikov.player.domain.repositories.PlayerRepository
+import com.mdubovikov.util.Container
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -34,5 +34,4 @@ class AdapterPlayerRepository @Inject constructor(
     override fun getTrackIdsInDownloads(): Flow<Set<Long>> {
         return playerDataRepository.getTrackIdsInDownloads()
     }
-
 }

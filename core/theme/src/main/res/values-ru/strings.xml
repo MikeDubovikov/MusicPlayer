@@ -7,7 +7,8 @@
     <string name="add_icon">Иконка добавления</string>
     <string name="cover_image">Иконка изображения</string>
     <string name="something_went_wrong">Что-то пошло не так</string>
-    <string name="search_hint">Чего ты хочешь?</string>
+    <string name="search_hint_tracks">Что хотите послушать?</string>
+    <string name="search_hint_downloads">Найдите любимую музыку</string>
     <string name="search_icon">Иконка поиска</string>
     <string name="chart">Чарт</string>
     <string name="empty">Загруженных треков нет</string>
