@@ -2,7 +2,6 @@ package com.mdubovikov.data.database
 
 import android.content.Context
 import android.os.Environment
-import android.util.Log
 import com.mdubovikov.data.network.dto.TrackDto
 import okhttp3.Call
 import okhttp3.Callback
@@ -22,14 +21,11 @@ class TrackDownloadManager @Inject constructor(
         val fileName = "${track.id}.mp3"
         val file = File(context.getExternalFilesDir(Environment.DIRECTORY_MUSIC), fileName)
 
-        // Если файл уже существует — возвращаем успех
         if (file.exists()) {
-            Log.d("TrackManager", "Файл уже существует: ${file.absolutePath}")
             onComplete(true)
             return
         }
 
-        // Скачиваем файл
         val client = OkHttpClient()
         val request = Request.Builder().url(track.remoteUri).build()
 
@@ -53,8 +49,7 @@ class TrackDownloadManager @Inject constructor(
                         }
 
                         outputStream.flush()
-                        Log.d("TrackManager", "Файл успешно скачан: ${file.absolutePath}")
-                        onComplete(true) // Успешное скачивание
+                        onComplete(true)
                     } catch (e: IOException) {
                         e.printStackTrace()
                         onComplete(false)
@@ -71,18 +66,14 @@ class TrackDownloadManager @Inject constructor(
         val fileName = "$id.mp3"
         val file = File(context.getExternalFilesDir(Environment.DIRECTORY_MUSIC), fileName)
 
-        // Проверяем, существует ли файл
         if (file.exists()) {
             if (file.delete()) {
-                Log.d("TrackManager", "Файл удален: ${file.absolutePath}")
-                onComplete(true) // Успешное удаление
+                onComplete(true)
             } else {
-                Log.e("TrackManager", "Ошибка при удалении файла.")
                 onComplete(false)
             }
         } else {
-            Log.e("TrackManager", "Файл не найден: ${file.absolutePath}")
-            onComplete(false) // Файл не найден, возвращаем false
+            onComplete(false)
         }
     }
 }

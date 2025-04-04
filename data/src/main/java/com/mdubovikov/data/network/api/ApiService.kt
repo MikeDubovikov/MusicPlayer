@@ -20,5 +20,4 @@ interface ApiService {
         @Query("q") query: String,
         @Query("index") index: Int = 0
     ): SearchResponse
-
 }

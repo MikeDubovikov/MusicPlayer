@@ -8,7 +8,6 @@ import javax.inject.Inject
 class SearchDownloadsUseCase @Inject constructor(
     private val downloadsRepository: DownloadsRepository
 ) {
-    operator fun invoke(query: String): Flow<List<TrackDownloads>> {
-        return downloadsRepository.searchDownloads(query = query)
-    }
+    operator fun invoke(query: String): Flow<List<TrackDownloads>> =
+        downloadsRepository.searchDownloads(query = query)
 }

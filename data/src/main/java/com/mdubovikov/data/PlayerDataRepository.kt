@@ -1,7 +1,7 @@
 package com.mdubovikov.data
 
-import com.mdubovikov.common.Container
 import com.mdubovikov.data.network.dto.TrackDto
+import com.mdubovikov.util.Container
 import kotlinx.coroutines.flow.Flow
 
 interface PlayerDataRepository {
@@ -13,5 +13,4 @@ interface PlayerDataRepository {
     suspend fun removeTrackFromDownloads(trackId: Long)
 
     fun getTrackIdsInDownloads(): Flow<Set<Long>>
-
 }

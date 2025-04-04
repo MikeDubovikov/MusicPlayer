@@ -3,7 +3,7 @@ package com.mdubovikov.data.tracks.di
 import com.mdubovikov.data.TracksDataRepository
 import com.mdubovikov.data.network.api.ApiFactory
 import com.mdubovikov.data.tracks.TrackDataRepositoryImpl
-import com.mdubovikov.di.ApplicationScope
+import com.mdubovikov.util.ApplicationScope
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -19,5 +19,4 @@ interface TracksDataRepositoryModule {
         @[ApplicationScope Provides]
         fun provideApiService() = ApiFactory.apiService
     }
-
 }

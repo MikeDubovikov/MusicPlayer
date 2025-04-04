@@ -2,11 +2,11 @@ package com.mdubovikov.musicplayer.merging.tracks
 
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.mdubovikov.common.Container
 import com.mdubovikov.data.TracksDataRepository
 import com.mdubovikov.data.tracks.TracksMapper
 import com.mdubovikov.tracks.domain.entities.Track
 import com.mdubovikov.tracks.domain.repositories.TracksRepository
+import com.mdubovikov.util.Container
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

@@ -1,7 +1,7 @@
 package com.mdubovikov.player.domain.repositories
 
-import com.mdubovikov.common.Container
 import com.mdubovikov.player.domain.entities.TrackPlayer
+import com.mdubovikov.util.Container
 import kotlinx.coroutines.flow.Flow
 
 interface PlayerRepository {

@@ -1,8 +1,9 @@
 package com.mdubovikov.tracks.presentation.adapter
 
-import android.net.Uri
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mdubovikov.theme.R
 import com.mdubovikov.theme.databinding.TrackCardBinding
 import com.mdubovikov.tracks.domain.entities.Track
@@ -16,10 +17,11 @@ class TracksItemViewHolder(
     fun bind(track: Track) {
         with(binding) {
             Glide.with(ivCover)
-                .load(Uri.parse(track.albumCover))
+                .load(track.albumCover.toUri())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
-                .placeholder(R.drawable.ic_placeholder)
-                .error(R.drawable.ic_placeholder)
+                .placeholder(R.drawable.ic_music_note)
+                .error(R.drawable.ic_music_note)
                 .into(ivCover)
 
             tvTrackName.text = track.title

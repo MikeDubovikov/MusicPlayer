@@ -28,7 +28,8 @@
         </activity>
         <service
             android:name="com.mdubovikov.player.service.MusicService"
-            android:exported="true"
+            android:description="@string/service_description"
+            android:exported="false"
             android:foregroundServiceType="mediaPlayback">
             <intent-filter>
                 <action android:name="androidx.media3.session.MediaSessionService" />

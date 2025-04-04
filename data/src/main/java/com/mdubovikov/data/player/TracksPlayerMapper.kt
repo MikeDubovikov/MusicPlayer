@@ -28,5 +28,4 @@ class TracksPlayerMapper @Inject constructor() {
             remoteUri = trackDto.remoteUri
         )
     }
-
 }

@@ -6,7 +6,7 @@ import com.mdubovikov.data.database.TrackDownloadManager
 import com.mdubovikov.data.database.TracksDatabase
 import com.mdubovikov.data.database.dao.TracksDao
 import com.mdubovikov.data.downloads.DownloadsDataRepositoryImpl
-import com.mdubovikov.di.ApplicationScope
+import com.mdubovikov.util.ApplicationScope
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -34,5 +34,4 @@ interface DownloadsDataRepositoryModule {
             return TrackDownloadManager(context = application)
         }
     }
-
 }

@@ -1,8 +1,9 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.serialization)
+    alias(libs.plugins.kapt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -38,25 +39,18 @@ android {
 
 dependencies {
 
-    implementation(projects.core.common)
-    implementation(projects.core.di)
+    implementation(projects.core.util)
     implementation(projects.features.tracks)
     implementation(projects.features.downloads)
     implementation(projects.features.player)
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-
     implementation(libs.dagger.core)
-    ksp(libs.dagger.compiler)
-    implementation(libs.javax.inject)
+    kapt(libs.dagger.compiler)
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter)
     implementation(libs.serialization.json)
     implementation(libs.paging)
-    implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
 }

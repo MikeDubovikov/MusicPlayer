@@ -4,10 +4,10 @@ import android.app.Application
 import com.mdubovikov.data.downloads.di.DownloadsDataRepositoryModule
 import com.mdubovikov.data.player.di.PlayerDataRepositoryModule
 import com.mdubovikov.data.tracks.di.TracksDataRepositoryModule
-import com.mdubovikov.di.ApplicationScope
 import com.mdubovikov.downloads.di.DownloadsComponent
 import com.mdubovikov.player.di.PlayerComponent
 import com.mdubovikov.tracks.di.TracksComponent
+import com.mdubovikov.util.ApplicationScope
 import dagger.BindsInstance
 import dagger.Component
 
@@ -32,7 +32,6 @@ interface ApplicationComponent {
 
     @Component.Factory
     interface Factory {
-
         fun create(@BindsInstance application: Application): ApplicationComponent
     }
 }

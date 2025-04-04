@@ -4,22 +4,24 @@ import android.content.Context
 import android.os.Bundle
 import android.text.InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import com.mdubovikov.common.Container
-import com.mdubovikov.presentation.BaseFragment
-import com.mdubovikov.presentation.ViewModelFactory
-import com.mdubovikov.presentation.observeStateOn
 import com.mdubovikov.theme.R
 import com.mdubovikov.tracks.TracksRouter
 import com.mdubovikov.tracks.databinding.FragmentTracksBinding
 import com.mdubovikov.tracks.di.TracksComponent
 import com.mdubovikov.tracks.di.TracksComponentProvider
 import com.mdubovikov.tracks.presentation.adapter.TracksAdapter
+import com.mdubovikov.util.BaseFragment
+import com.mdubovikov.util.Container
+import com.mdubovikov.util.ViewModelFactory
+import com.mdubovikov.util.observeStateOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -115,9 +117,21 @@ class TracksFragment : BaseFragment<FragmentTracksBinding>(), TracksRouter {
     }
 
     private fun setupSearchView() {
+
         val searchIcon =
             binding.svMeals.findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon)
         searchIcon.setImageResource(R.drawable.ic_search)
+
+        val searchEditText =
+            binding.svMeals.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
+        searchEditText.setHintTextColor(
+            ContextCompat.getColor(
+                requireActivity(),
+                R.color.dark_gray
+            )
+        )
+        searchEditText.setTextColor(ContextCompat.getColor(requireActivity(), R.color.black))
+        searchEditText.textSize = 14f
 
         binding.svMeals.inputType = TYPE_TEXT_FLAG_CAP_SENTENCES
 

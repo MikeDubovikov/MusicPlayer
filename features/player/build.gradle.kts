@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kapt)
     alias(libs.plugins.ksp)
 }
 
@@ -41,16 +42,17 @@ android {
 
 dependencies {
 
-    implementation(projects.core.presentation)
-    implementation(projects.core.di)
+    implementation(projects.core.util)
+    implementation(projects.core.theme)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.dagger.core)
-    ksp(libs.dagger.compiler)
-    implementation(libs.javax.inject)
+    kapt(libs.dagger.compiler)
     implementation(libs.glide)
     ksp(libs.glide.compiler)
-    implementation(libs.media)
+    api(libs.media3.exoplayer)
+    api(libs.media3.session)
+    implementation(libs.media3.ui)
 }

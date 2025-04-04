@@ -1,8 +1,8 @@
 package com.mdubovikov.downloads.di
 
 import androidx.lifecycle.ViewModel
-import com.mdubovikov.di.ViewModelKey
 import com.mdubovikov.downloads.presentation.DownloadsViewModel
+import com.mdubovikov.util.ViewModelKey
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -10,8 +10,10 @@ import dagger.multibindings.IntoMap
 @Module
 interface DownloadsViewModelModule {
 
+    @Binds
     @IntoMap
     @ViewModelKey(DownloadsViewModel::class)
-    @Binds
-    fun bindViewModel(impl: DownloadsViewModel): ViewModel
+    fun bindsDownloadsViewModel(
+        viewModel: DownloadsViewModel
+    ): ViewModel
 }

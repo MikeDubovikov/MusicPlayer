@@ -8,7 +8,5 @@ import javax.inject.Inject
 class GetDownloadsUseCase @Inject constructor(
     private val downloadsRepository: DownloadsRepository
 ) {
-    operator fun invoke(): Flow<List<TrackDownloads>> {
-        return downloadsRepository.getDownloads()
-    }
+    operator fun invoke(): Flow<List<TrackDownloads>> = downloadsRepository.getDownloads()
 }
