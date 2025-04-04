@@ -1,8 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.navigation.safeargs)
+    alias(libs.plugins.kapt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -45,8 +46,8 @@ android {
 
 dependencies {
 
-    implementation(projects.core.presentation)
-    implementation(projects.core.di)
+    implementation(projects.core.util)
+    implementation(projects.core.theme)
     implementation(projects.data)
     implementation(projects.features.tracks)
     implementation(projects.features.downloads)
@@ -57,9 +58,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.javax.inject)
     implementation(libs.dagger.core)
-    ksp(libs.dagger.compiler)
-    implementation(libs.navigation.ui.ktx)
-    implementation(libs.navigation.fragment.ktx)
+    kapt(libs.dagger.compiler)
 }

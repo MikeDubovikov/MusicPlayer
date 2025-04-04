@@ -1,4 +1,4 @@
-package com.mdubovikov.common
+package com.mdubovikov.util
 
 import kotlinx.coroutines.runBlocking
 

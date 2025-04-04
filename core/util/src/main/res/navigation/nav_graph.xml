@@ -26,9 +26,12 @@
     <fragment
         android:id="@+id/playerFragment"
         android:name="com.mdubovikov.player.presentation.PlayerFragment"
-        android:label="PlayerFragment">
+        android:label="PlayerFragment"
+        tools:layout="@layout/fragment_player">
         <argument
             android:name="trackId"
             app:argType="long" />
+        <argument android:name="listTracks"
+            app:argType="long[]" />
     </fragment>
 </navigation>

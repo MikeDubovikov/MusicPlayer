@@ -1,4 +1,4 @@
-package com.mdubovikov.presentation
+package com.mdubovikov.util
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner

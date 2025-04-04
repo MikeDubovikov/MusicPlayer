@@ -1,4 +1,4 @@
-package com.mdubovikov.presentation
+package com.mdubovikov.util
 
 import android.os.Bundle
 import android.view.LayoutInflater
