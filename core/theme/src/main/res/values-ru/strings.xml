@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Music Player</string>
+    <string name="tracks">Треки</string>
+    <string name="downloads">Загрузки</string>
+    <string name="player">Плеер</string>
+    <string name="add_icon">Иконка добавления</string>
+    <string name="cover_image">Иконка изображения</string>
+    <string name="something_went_wrong">Что-то пошло не так</string>
+    <string name="search_hint">Чего ты хочешь?</string>
+    <string name="search_icon">Иконка поиска</string>
+    <string name="chart">Чарт</string>
+    <string name="empty">Загруженных треков нет</string>
+    <string name="button_back">Иконка навигации назад</string>
+    <string name="play_icon">Иконка запуска трека</string>
+    <string name="pause_icon">Иконка паузы трека</string>
+    <string name="previous_icon">Иконка предыдущего трека</string>
+    <string name="next_icon">Иконка следубщего трека</string>
+    <string name="service_description">Сервис фонового воспроизведения музыки</string>
+    <string name="backward_icon">Иконка отмотки назад</string>
+    <string name="forward_icon">Иконка перемотки вперед</string>
+    <string name="replay_icon">Иконка повтора</string>
+    <string name="shuffle_icon">Иконка перемешивания</string>
+    <string name="song_name_placeholder">Название песни</string>
+    <string name="artist_name_placeholder">Имя артиста</string>
+    <string name="repeat_is_enable">Повторение включено</string>
+    <string name="repeat_is_disable">Повторение выключено</string>
+    <string name="shuffle_is_enable">Перемешивание включено</string>
+    <string name="shuffle_is_disable">Перемешивание выключено</string>
+    <string name="track_added">Трек добавлен</string>
+    <string name="track_removed">Трек удален</string>
+    <string name="playing_from_chart">ИЗ ЧАРТА</string>
+    <string name="playing_from_search">ИЗ ПОИСКА</string>
+    <string name="playing_from_downloaded">ИЗ СКАЧЕННЫХ</string>
+</resources>

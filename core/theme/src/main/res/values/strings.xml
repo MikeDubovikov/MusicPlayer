@@ -2,6 +2,7 @@
     <string name="app_name">Music Player</string>
     <string name="tracks">Tracks</string>
     <string name="downloads">Downloads</string>
+    <string name="player">Player</string>
     <string name="add_icon">Add icon</string>
     <string name="cover_image">Cover image</string>
     <string name="something_went_wrong">Something went wrong</string>
@@ -10,9 +11,25 @@
     <string name="chart">Chart</string>
     <string name="empty">Downloads is empty</string>
     <string name="button_back">Back button icon</string>
-    <string name="playing_from_artist">PLAYING FROM ARTIST</string>
+    <string name="playing_from_chart">PLAYING FROM CHART</string>
+    <string name="playing_from_search">PLAYING FROM SEARCH</string>
+    <string name="playing_from_downloaded">PLAYING FROM YOUR DOWNLOADED</string>
     <string name="play_icon">Play icon</string>
     <string name="pause_icon">Pause icon</string>
     <string name="previous_icon">Previous icon</string>
     <string name="next_icon">Next icon</string>
+    <string name="service_description">Background media play service</string>
+    <string name="backward_icon">Backward icon</string>
+    <string name="forward_icon">Forward icon</string>
+    <string name="replay_icon">Replay icon</string>
+    <string name="shuffle_icon">Shuffle icon</string>
+    <string name="song_name_placeholder">Song name</string>
+    <string name="artist_name_placeholder">Artist name</string>
+    <string name="time_placeholder" translatable="false">00:00</string>
+    <string name="repeat_is_enable">Repeat is enabled</string>
+    <string name="repeat_is_disable">Repeat is disable</string>
+    <string name="shuffle_is_enable">Shuffle is enabled</string>
+    <string name="shuffle_is_disable">Shuffle is disable</string>
+    <string name="track_added">Track added</string>
+    <string name="track_removed">Track removed</string>
 </resources>

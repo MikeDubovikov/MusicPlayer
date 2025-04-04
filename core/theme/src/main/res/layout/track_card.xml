@@ -28,7 +28,7 @@
                 android:layout_height="100dp"
                 android:background="@color/white"
                 android:contentDescription="@string/cover_image"
-                android:src="@drawable/ic_placeholder" />
+                android:src="@drawable/ic_music_note" />
 
         </com.google.android.material.card.MaterialCardView>
 
